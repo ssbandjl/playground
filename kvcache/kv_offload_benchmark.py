@@ -12,7 +12,7 @@ os.environ["VLLM_DEBUG_DUMP_PATH"] = "./debug_dump"
 
 print(f"====SXB start")
 CPU_CACHE_SIZE_GB = 100
-CPU_BLOCK_SIZE = 16
+CPU_BLOCK_SIZE = 64
 NUM_DECODED_TOKENS_PER_PROMPT = 1
 
 # MODEL = "meta-llama/Llama-3.1-8B-Instruct"
