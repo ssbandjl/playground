@@ -1,13 +1,22 @@
 import time
+import torch
+import os
 
 from vllm import LLM, SamplingParams, TokensPrompt
 from vllm.config import KVTransferConfig
 
+os.environ["VLLM_LOGGING_LEVEL"] = "DEBUG"  
+os.environ["VLLM_TRACE_FUNCTION"] = "1"  
+os.environ["CUDA_LAUNCH_BLOCKING"] = "1"  
+os.environ["VLLM_DEBUG_DUMP_PATH"] = "./debug_dump" 
+
+print(f"====SXB start")
 CPU_CACHE_SIZE_GB = 100
 CPU_BLOCK_SIZE = 16
 NUM_DECODED_TOKENS_PER_PROMPT = 1
 
-MODEL = "meta-llama/Llama-3.1-8B-Instruct"
+# MODEL = "meta-llama/Llama-3.1-8B-Instruct"
+MODEL = "/data/models/DeepSeek-V3.2"
 # sizeof(element) * head_size * num_heads * |{k,v}| * layer_count
 KV_SIZE_PER_TOKEN = 2 * 128 * 8 * 2 * 32
 
@@ -38,12 +47,30 @@ ktc = KVTransferConfig(
         "num_cpu_blocks": num_cpu_blocks, # required in older versions (0.12.0)
     }
 )
+
+# kv_events_config=KVEventsConfig(enable_kv_cache_events=True)
+
 llm = LLM(
     model=MODEL,
     enable_prefix_caching=False,
-    kv_transfer_config=ktc
+    kv_transfer_config=ktc,
+    # DeepSeek-V3.2 may need these additional settings:  
+    quantization="fp8",  # matching your model's quantization  
+    dtype=torch.bfloat16,
+    enforce_eager=True,  # Disables both torch.compile and CUDA graphs
+    gpu_memory_utilization=0.7,  # Reduce from default 0.9
+    max_model_len=32768,
+    max_num_seqs=16,
+    tensor_parallel_size=8, 
 )
 
+    # enable_expert_parallel=True,     # Enable EP for MoE layers 
+    # data_parallel_size=8,            # 8-way data parallel  
+    # tensor_parallel_size=1,          # No TP for attention  
+    # tensor_parallel_size=2,  # Split across 2 GPUs
+    # compilation_config=CompilationConfig(  
+    #     cudagraph_mode=CUDAGraphMode.NONE  
+    # ) 
 # run latency test
 max_prompt_size = max(PROMPT_SIZES_IN_K_TO_TEST) << 10
 iterations_count = cache_tokens_capacity // max_prompt_size
