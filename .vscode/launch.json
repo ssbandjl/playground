@@ -8,11 +8,11 @@
             "program": "${workspaceFolder}/kvcache/kv_offload_benchmark.py",  
             "console": "integratedTerminal",  
             "env": {  
-                "VLLM_LOGGING_LEVEL": "DEBUG",  
-                "VLLM_TRACE_FUNCTION": "1",  
-                "CUDA_LAUNCH_BLOCKING": "1",  
-                "VLLM_DEBUG_DUMP_PATH": "${workspaceFolder}/debug_dump",  
-                "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"  
+                "VLLM_LOGGING_LEVEL": "ERROR",  
+                "VLLM_TRACE_FUNCTION": "0",  
+                "CUDA_LAUNCH_BLOCKING": "0",  
+                // "VLLM_DEBUG_DUMP_PATH": "${workspaceFolder}/debug_dump", 
+                // "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"  
             },  
             "args": [],  
             "cwd": "${workspaceFolder}",  

@@ -5,10 +5,10 @@ import os
 from vllm import LLM, SamplingParams, TokensPrompt
 from vllm.config import KVTransferConfig
 
-os.environ["VLLM_LOGGING_LEVEL"] = "DEBUG"  
-os.environ["VLLM_TRACE_FUNCTION"] = "1"  
-os.environ["CUDA_LAUNCH_BLOCKING"] = "1"  
-os.environ["VLLM_DEBUG_DUMP_PATH"] = "./debug_dump" 
+# os.environ["VLLM_LOGGING_LEVEL"] = "DEBUG"  
+# os.environ["VLLM_TRACE_FUNCTION"] = "1"  
+# os.environ["CUDA_LAUNCH_BLOCKING"] = "1"  
+# os.environ["VLLM_DEBUG_DUMP_PATH"] = "./debug_dump" 
 
 print(f"====SXB start")
 CPU_CACHE_SIZE_GB = 100
