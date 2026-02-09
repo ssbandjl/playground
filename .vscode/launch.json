@@ -3,7 +3,7 @@
     "configurations": [  
         {  
             "name": "Debug vLLM DeepSeek-V3.2",  
-            "type": "python",  
+            "type": "debugpy",  
             "request": "launch",  
             "program": "${workspaceFolder}/kvcache/kv_offload_benchmark.py",  
             "console": "integratedTerminal",  
@@ -22,7 +22,7 @@
         },  
         {  
             "name": "Debug vLLM (No Function Trace)",  
-            "type": "python",  
+            "type": "debugpy",  
             "request": "launch",  
             "program": "${workspaceFolder}/kvcache/kv_offload_benchmark.py",  
             "console": "integratedTerminal",  
